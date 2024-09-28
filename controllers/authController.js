@@ -17,15 +17,17 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     // Create a new user
-    const newUser = new User({
+    const user = await User.create({
       username,
       email,
       password: hashedPassword,
     });
-    // Generate a JWT Token
+
+    // Now you can safely access user properties
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d", // Token expires in 30 days
+      expiresIn: "30d",
     });
+
     res.status(201).json({
       _id: user._id,
       username: user.username,
@@ -34,6 +36,12 @@ const register = async (req, res) => {
       token,
     });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((val) => val.message);
+      return res.status(400).json({ errors });
+    }
+
+    // Handle other errors
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }

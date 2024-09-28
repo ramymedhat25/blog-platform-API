@@ -1,25 +1,21 @@
 const express = require("express");
-const router = express.Router();
 const {
   getPosts,
   createPost,
-  getPostById,
+  getPost,
   updatePost,
   deletePost,
 } = require("../controllers/postController");
-
 const { protect } = require("../middlewares/authMiddleware");
-const upload = require("../middlewares/uploadMiddleware.js");
+
+const router = express.Router();
+
+router.route("/").get(getPosts).post(protect, createPost);
 
 router
-  .route("/")
-  .get(getPosts)
-  .post(protect, upload.single("featuredImage"), createPost); // Image upload
-
-router
-  .route("/:slug")
-  .get(getPostById)
-  .put(protect, upload.single("featuredImage"), updatePost)
+  .route("/:idOrSlug")
+  .get(getPost)
+  .put(protect, updatePost)
   .delete(protect, deletePost);
 
 module.exports = router;
