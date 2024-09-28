@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 // @route   POST /api/auth/register
 // @access  Public
 
-exports.registerUser = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     // Check if user already exists
@@ -42,7 +42,7 @@ exports.registerUser = async (req, res) => {
 // @desc    Login with existing user
 // @route   POST /api/auth/login
 // @access  Public
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Check if user exists
@@ -71,4 +71,8 @@ exports.login = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+module.exports = {
+  register,
+  login,
 };

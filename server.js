@@ -10,7 +10,7 @@ require("dotenv").config();
 connectDB();
 
 // Routes
-app.use("/api/auth", require("./routes/auth"));
+app.use("/api/auth", require("./routes/authRoute.js"));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
