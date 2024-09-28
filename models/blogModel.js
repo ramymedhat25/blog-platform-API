@@ -36,3 +36,11 @@ const blogSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+// Update 'updatedAt' before saving the document
+blogSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+module.exports = mongoose.model("BlogPost", blogSchema);
