@@ -2,7 +2,7 @@ const express = require("express");
 const {
   getPosts,
   createPost,
-  getPost,
+  getPostById,
   updatePost,
   deletePost,
 } = require("../controllers/postController");
@@ -14,7 +14,7 @@ router.route("/").get(getPosts).post(protect, createPost);
 
 router
   .route("/:idOrSlug")
-  .get(getPost)
+  .get(getPostById)
   .put(protect, updatePost)
   .delete(protect, deletePost);
 
