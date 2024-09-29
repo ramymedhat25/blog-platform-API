@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const connectDB = require("./config/db");
@@ -9,6 +10,8 @@ require("dotenv").config();
 
 // Connect to MongoDB
 connectDB();
+
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json()); // Add this if you haven't already to handle JSON payloads
